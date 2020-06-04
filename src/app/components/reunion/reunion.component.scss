@@ -1,0 +1,31 @@
+@media screen and (max-width: 1160px) {
+    .formNuevaReunion {
+        padding-top: 10%;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .formNuevaReunion {
+        padding-top: 20%;
+    }
+}
+
+.sendAgenda:hover {
+    cursor: pointer;
+}
+
+.modifReunion:hover {
+    cursor: pointer;
+}
+
+.boton2 {
+    background: transparent;
+    border: none !important;
+    position: relative;
+    height: 30px;
+    width: 40px;
+}
+
+.x {
+    color: rgb(255, 0, 0);
+}

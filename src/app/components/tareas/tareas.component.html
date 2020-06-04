@@ -1,0 +1,97 @@
+<div class="container">
+    <div *ngIf="us.isUserAdminAndJefe()">
+        <button class="btn btn-success my-2 my-sm-0" (click)="submittedTrue()" title="Crear nueva tarea"><i class="fas fa-plus"></i> Crear Tareas</button>
+    </div>
+    <br>
+    <br>
+    <div *ngIf="submitted">
+        <form [formGroup]="nuevaTareaForm" (ngSubmit)="crearTarea(nuevaTareaForm)" method="POST">
+            <div class="form-group">
+                <label for="titulo">Titulo</label>
+                <input type="text" class="form-control col-sm-5" formControlName="titulo" id="titulo" placeholder="Titulo...">
+                <div class="alert alert-danger" *ngIf="(titulo.touched) && (titulo.invalid)" style="margin-top: 5px;">
+                    <span *ngIf="titulo.errors.required">El titulo es un campo requerido</span>
+                    <span *ngIf="titulo.errors.maxlength">
+                    Longitud máxima de carácteres: {{titulo.errors.maxlength.requiredLength}}
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="descripcion">Descripcion</label>
+                <textarea class="form-control col-sm-5" formControlName="descripcion" id="descripcion" placeholder="Descripcion..." rows="3"></textarea>
+                <div class="alert alert-danger" *ngIf="(descripcion.touched) && (descripcion.invalid)" style="margin-top: 5px;">
+                    <span *ngIf="descripcion.errors.required">La descripción es un campo requerido</span>
+                    <span *ngIf="descripcion.errors.maxlength">
+                    Longitud máxima de carácteres: {{descripcion.errors.maxlength.requiredLength}}
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="responsables">Responsables</label>
+                <select multiple class="form-control col-sm-5" id="responsables" formControlName="responsables">
+                    <option selected disabled></option>
+                    <option *ngFor="let user of usuarios" value="{{user.codUsu}}">
+                        {{user.nombre}}
+                    </option>
+                </select>
+                <div class="alert alert-danger" *ngIf="(responsables.touched) && (responsables.invalid)" style="margin-top: 5px;">
+                    <span *ngIf="responsables.errors.required">Los responsables es un campo requerido</span>
+                </div>
+            </div>
+            <button [disabled]="!nuevaTareaForm.valid" type="submit" class="btn btn-success">Crear tarea</button>
+            <button type="submit" class="btn btn-light" (click)="submitted = false">Cancelar</button>
+        </form>
+    </div>
+    <div *ngIf="existeTarea">
+        <h3>Tareas</h3>
+        <br>
+        <div *ngFor="let tar of tareas">
+            <div *ngIf="tar.cerrado == 0">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-11">
+                                <h4 class="card-title">{{tar.titulo}}</h4>
+                            </div>
+                            <div *ngIf="us.isUserAdminAndJefe()" class="col">
+                                <div class="dropdown">
+                                    <button type="button" class="boton2 dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Desplegable con distintas acciones"><i class="fas fa-ellipsis-v"></i></button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" (click)="cerrarTareas(tar.codTarea)" title="Cerrar tarea seleccionada">Cerrar tarea</a>
+                                        <a class="dropdown-item" (click)="enviarTarea(tar.codTarea)" title="Enviar tarea vía Email">Enviar tarea</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="card-body">
+                            <b>Detalles:</b>
+                            <p>{{tar.descripcion}}</p>
+                            <b>(Responsable/s)</b>
+                            <div *ngFor="let user of tar.usuarios">
+                                <p>- {{user.nombre}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="tar.cerrado == 1">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">{{tar.titulo}} (CERRADA)</h4>
+                        <hr>
+                        <div class="card-body">
+                            <b>Detalles:</b>
+                            <p>{{tar.descripcion}}</p>
+                            <b>(Responsable/s)</b>
+                            <div *ngFor="let user of tar.usuarios">
+                                <p>- {{user.nombre}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+</div>

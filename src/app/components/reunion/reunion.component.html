@@ -1,0 +1,141 @@
+<div class="container formNuevaReunion">
+    <h3 style="text-align: center;">Reunion para: {{serieReunion.equipo}} - {{serieReunion.nombre}}</h3>
+    <br>
+    <div class="card">
+        <div class="card-body">
+            <form #reunionform="ngForm" method="POST">
+                <div class="row">
+                    <div class="col-sm-11">
+                        <div class="form-group">
+                            <label for="fecha"><b>Fecha</b></label>
+                            <input type="date" class="form-control col-sm-3" id="fecha" name="fecha" [(ngModel)]="reunion.fecha" placeholder="Fecha..." disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="participantes"><b>Participantes</b></label>
+                            <div *ngFor="let user of usuarios">
+                                {{user.nombre}} - {{user.rol}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col" *ngIf="us.isUserAdminAndJefe()">
+                        <i class="fas fa-edit fa-2x modifReunion" (click)="verReunion(reunionModal)" title="Ver información Reunion"></i>
+                        <p> </p>
+                        <i class="far fa-envelope fa-2x sendAgenda" (click)="enviarAgenda()" title="Enviar información de la Reunion vía Email"></i>
+                    </div>
+                </div>
+                <br>
+            </form>
+            <br>
+            <button class="btn btn-success my-2 my-sm-0" (click)="submittedTrue()" title="Adjuntar archivo"><i class="fas fa-plus"></i> Adjuntar Archivo</button>
+            <br>
+            <br>
+            <div *ngIf="adjuntar">
+                <form [formGroup]="formArchivo" (ngSubmit)="guardarArchivo()" method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input col-sm-3" id="archivos" formControlName="archivo" (change)="selectFile($event)">
+                                    <label class="custom-file-label col-sm-3" for="archivos">Seleccione un archivo</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <button [disabled]="!formArchivo.valid" type="submit" class="btn btn-success boton">Adjuntar</button>
+                </form>
+            </div>
+            <br>
+            <div *ngIf="existeArchivo">
+                <ol>
+                    <li *ngFor="let arch of archivos">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <a style="color: rgb(17, 0, 255);" (click)="ejecutarArchivo(arch.codArchivo, arch.nombre)" title="Descargar archivo">{{arch.nombre}}</a>
+                            </div>
+                            <div class="col">
+                                <button type="button" class="boton2" (click)="borrarArchivo(arch.codArchivo)" title="Eliminar archivo"><i class="fas fa-times x"></i></button>
+                            </div>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<app-temas></app-temas>
+<br>
+<br>
+<app-tareas></app-tareas>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-2">
+            <button type="submit" class="btn btn-outline-dark my-2 my-sm-0" [routerLink]="['/', 'seriereunion', codsreunion]" title="Volver al listado de Serie de Reuniones"><i class="fas fa-angle-left"></i> Volver</button>
+        </div>
+        <div class="col" *ngIf="us.isUserAdminAndJefe()">
+            <button class="btn btn-primary my-2 my-sm-0" [routerLink]="['/', 'acta', codsreunion, codreunion]" title="Generar Acta de la Reunion"><i class="fas fa-pencil-alt"></i> Generar Acta</button>
+        </div>
+    </div>
+</div>
+
+<ng-template #reunionModal>
+    <div class="modal-header">
+        <h4 class="modal-title">Información del tema</h4>
+    </div>
+    <div class="modal-body">
+        <div *ngIf="nomodificar && us.isUserAdminAndJefe()">
+            <p>¿Desea modificar la reunión?</p>
+            <button type="button" class="btn-sm btn-primary" (click)="siReunion()" title="Modificar Reunion">Si</button>
+        </div>
+        <br>
+        <form [formGroup]="formReunion" method="POST" (ngSubmit)="modificarReunion(formReunion, reunionModal)">
+            <div class="form-group">
+                <label for="fecha">Fecha</label>
+                <input type="date" id="fecha" name="fecha" formControlName="fecha" class="form-control" placeholder="Fecha...">
+                <div class="alert alert-danger" *ngIf="(fecha.touched) && (fecha.invalid)" style="margin-top: 5px;">
+                    <span *ngIf="fecha.errors.required">La fecha es un campo requerido</span>
+                </div>
+
+                <br>
+
+                <label for="participantes">Participantes</label>
+                <div *ngFor="let user of usuarios">
+                    <div class="row">
+                        <div class="col">
+                            {{user.nombre}} - {{user.rol}}
+                        </div>
+                        <div class="col" *ngIf="modificar">
+                            <button type="button" class="boton2" (click)="eliminarParticipante(user.codUsu)"><i class="fas fa-times x"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                <div *ngIf="modificar">
+                    <div *ngIf="usuariosNotInReunion.length == 0">
+                        <p>Debe invitar más usuarios a la serie de reuniones para poder invitarlos aquí.</p>
+                    </div>
+                    <div *ngIf="usuariosNotInReunion.length > 0">
+                        <label for="newparticipantes">¿Añadir más participantes a la reunión?</label>
+                        <select multiple id="newparticipantes" name="newparticipantes" formControlName="newparticipantes" class="form-control">
+                            <option *ngFor="let user of usuariosNotInReunion" value="{{user.codUsu}}">
+                                {{user.nombre}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="modificar" [disabled]="!formReunion.valid" type="submit" class="btn btn-success">Añadir</button>
+                <button type="button" class="btn btn-light" (click)="cerrarModalReunion(reunionModal)">Cerrar</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+<div style="height: 20rem;"></div>

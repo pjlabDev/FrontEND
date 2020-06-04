@@ -1,0 +1,200 @@
+<div class="container">
+    <button class="btn boton my-2 my-sm-0" (click)="submittedTrue()" title="Crear un nuevo tema"><i class="fas fa-plus"></i> Crear Temas</button>
+    <br>
+    <br>
+    <div *ngIf="submitted">
+        <form [formGroup]="nuevoTemaform" (ngSubmit)="crearTema(nuevoTemaform)" method="POST">
+            <div class="form-group">
+                <label for="titulo">Titulo</label>
+                <input type="text" class="form-control col-sm-5" formControlName="titulo" id="titulo" placeholder="Titulo...">
+                <div class="alert alert-danger" *ngIf="(titulo.touched) && (titulo.invalid)" style="margin-top: 5px;">
+                    <span *ngIf="titulo.errors.required">La información es un campo requerido</span>
+                    <span *ngIf="titulo.errors.maxlength">
+                    Longitud máxima de carácteres: {{titulo.errors.maxlength.requiredLength}}
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="etiqueta">Etiqueta</label>
+                <select class="form-control col-sm-5" id="etiqueta" formControlName="etiqueta">
+                    <option value="ACTUAL">Actual</option>
+                    <option value="RECURRENTE">Recurrente</option>
+                </select>
+            </div>
+            <button [disabled]="!nuevoTemaform.valid" type="submit" class="btn btn-success">Añadir</button>
+            <button type="submit" class="btn btn-light" (click)="submitted = false">Cancelar</button>
+        </form>
+    </div>
+    <div *ngIf="existeTema">
+        <h3>Temas</h3>
+        <br>
+        <div *ngFor="let tem of temas">
+            <div *ngIf="tem.cerrado == 0">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-11">
+                                <h4 class="card-title">{{tem.titulo}} <span>*{{tem.etiqueta}}*</span></h4>
+                            </div>
+                            <div class="col">
+                                <div class="dropdown">
+                                    <button type="button" class="boton2 dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Desplegable con distintas acciones"><i class="fas fa-ellipsis-v"></i></button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" (click)="verModal(tem.codTema, infoModal)" title="Añadir información al tema seleccionado">Añadir información</a>
+                                        <div *ngIf="tem.decision === null">
+                                            <a class="dropdown-item" (click)="verModal(tem.codTema, decisionModal)" title="Añadir decisión al tema seleccionado">Añadir Decision</a>
+                                        </div>
+                                        <div *ngIf="us.isUserAdminAndJefe()">
+                                            <a class="dropdown-item" (click)="cerrarTemas(tem.codTema)" title="Cerrar tema seleccionado">Cerrar tema</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="tem.info !== null">
+                            <br>
+                            <div id="accordion">
+                                <a data-toggle="collapse" [attr.data-target]="'#collapseOne' + tem.codTema" aria-expanded="true" aria-controls="collapseOne" title="Mostrar información del tema seleccionado"><b style="color: blue;">INFORMACIÓN    </b><i style="color: blue;" class="fas fa-angle-double-right"></i></a>
+                            </div>
+                            <div id="collapseOne{{tem.codTema}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                <hr>
+                                <p class="angular-with-newlines">{{tem.info}}</p>
+                            </div>
+                        </div>
+                        <div *ngIf="tem.decision !== null">
+                            <br>
+                            <div id="accordion">
+                                <a data-toggle="collapse" [attr.data-target]="'#collapseTwo' + tem.codTema" aria-expanded="true" aria-controls="collapseOne" title="Mostrar decisión del tema seleccionado"><b style="color: green;">DECISIÓN    </b><i style="color: green;" class="fas fa-angle-double-down"></i></a>
+                            </div>
+                            <div id="collapseTwo{{tem.codTema}}" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                                <hr>
+                                <p>{{tem.decision}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="tem.cerrado == 1">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-11">
+                                <h4 class="card-title">{{tem.titulo}} <span>*{{tem.etiqueta}}*</span> (CERRADO)</h4>
+                            </div>
+                            <div class="col">
+                                <div class="dropdown">
+                                    <button type="button" class="boton2 dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Desplegable con distintas acciones"><i class="fas fa-ellipsis-v"></i></button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" (click)="verModal(tem.codTema, seguimientoModal)" title="Añadir seguimiento a tema cerrado seleccionado">Añadir seguimiento</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="tem.info !== null">
+                            <br>
+                            <div id="accordion">
+                                <a data-toggle="collapse" [attr.data-target]="'#collapseOne' + tem.codTema" aria-expanded="true" aria-controls="collapseOne" title="Mostrar información del tema seleccionado"><b style="color: rgb(0, 0, 255);">INFORMACIÓN    </b><i style="color: rgb(0, 0, 255);" class="fas fa-angle-double-right"></i></a>
+                            </div>
+                            <div id="collapseOne{{tem.codTema}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                <hr>
+                                <p class="angular-with-newlines">{{tem.info}}</p>
+                            </div>
+                        </div>
+                        <div *ngIf="tem.decision !== null">
+                            <br>
+                            <div id="accordion">
+                                <a data-toggle="collapse" [attr.data-target]="'#collapseTwo' + tem.codTema" aria-expanded="true" aria-controls="collapseTwo" title="Mostrar decisión del tema seleccionado"><b style="color: rgb(0, 128, 0);">DECISIÓN    </b><i style="color: rgb(0, 128, 0);" class="fas fa-angle-double-down"></i></a>
+                            </div>
+                            <div id="collapseTwo{{tem.codTema}}" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                                <hr>
+                                <p>{{tem.decision}}</p>
+                            </div>
+                        </div>
+                        <div *ngIf="tem.seguimiento !== null">
+                            <br>
+                            <div id="accordion">
+                                <a data-toggle="collapse" [attr.data-target]="'#collapseThree' + tem.codTema" aria-expanded="true" aria-controls="collapseThree" title="Mostrar seguimiento del tema seleccionado"><b style="color: rgb(103, 0, 172);">SEGUIMIENTO    </b><i style="color: rgb(103, 0, 172);" class="fas fa-angle-double-down"></i></a>
+                            </div>
+                            <div id="collapseThree{{tem.codTema}}" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                                <hr>
+                                <p>{{tem.seguimiento}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+    <br>
+</div>
+
+<ng-template #infoModal>
+    <div class="modal-header">
+        <h4 class="modal-title">Información para el tema</h4>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="infoForm" (ngSubmit)="addInfoTema(infoForm, infoModal)">
+            <div class="form-group">
+                <label for="info">Información</label>
+                <textarea id="info" name="info" class="form-control" formControlName="info" placeholder="Escriba la información del tema..."></textarea>
+                <div class="alert alert-danger" *ngIf="(info.touched) && (info.invalid)" style="margin-top: 5px;">
+                    <span *ngIf="info.errors.required">La información es un campo requerido</span>
+                    <span *ngIf="info.errors.maxlength">
+                    Longitud máxima de carácteres: {{info.errors.maxlength.requiredLength}}
+                    </span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="!infoForm.valid" type="submit" class="btn btn-success">Añadir</button>
+                <button type="button" class="btn btn-light" (click)="cerrarModal(infoModal)">Cerrar</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+<ng-template #decisionModal>
+    <div class="modal-header">
+        <h4 class="modal-title">Decisión para el tema</h4>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="decisionForm" (ngSubmit)="addDecisionTema(decisionForm, decisionModal)">
+            <div class="form-group">
+                <label for="decision">Decisión</label>
+                <textarea id="decision" name="decision" class="form-control" formControlName="decision" placeholder="Escriba la decisión del tema..."></textarea>
+                <div class="alert alert-danger" *ngIf="(dec.touched) && (dec.invalid)" style="margin-top: 5px;">
+                    <span *ngIf="dec.errors.required">La decision es un campo requerido</span>
+                    <span *ngIf="dec.errors.maxlength">
+                    Longitud máxima de carácteres: {{dec.errors.maxlength.requiredLength}}
+                    </span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="!decisionForm.valid" type="submit" class="btn btn-success">Añadir</button>
+                <button type="button" class="btn btn-light" (click)="cerrarModal(decisionModal)">Cerrar</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+<ng-template #seguimientoModal>
+    <div class="modal-header">
+        <h4 class="modal-title">Seguimiento para el tema</h4>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="seguimientoForm" (ngSubmit)="addSeguimientoTemaCerrado(seguimientoForm, seguimientoModal)" method="POST">
+            <div class="form-group">
+                <label for="seguimiento">Seguimiento</label>
+                <textarea id="seguimiento" name="seguimiento" class="form-control" formControlName="seguimiento" placeholder="Escriba el seguimiento del tema..."></textarea>
+                <div class="alert alert-danger" *ngIf="(seguimiento.touched) && (seguimiento.invalid)" style="margin-top: 5px;">
+                    <span *ngIf="seguimiento.errors.required">El seguimiento es un campo requerido</span>
+                    <span *ngIf="seguimiento.errors.maxlength">
+                    Longitud máxima de carácteres: {{seguimiento.errors.maxlength.requiredLength}}
+                    </span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="!seguimientoForm.valid" type="submit" class="btn btn-success">Añadir</button>
+                <button type="button" class="btn btn-light" (click)="cerrarModal(seguimientoModal)">Cerrar</button>
+            </div>
+        </form>
+    </div>
+</ng-template>

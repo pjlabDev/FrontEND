@@ -1,0 +1,16 @@
+@media screen and (max-width: 1250px) {
+    .formRegister {
+        padding-top: 5%;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .formRegister {
+        padding-top: 20%;
+    }
+}
+
+.message>span {
+    text-align: center;
+    color: red;
+}

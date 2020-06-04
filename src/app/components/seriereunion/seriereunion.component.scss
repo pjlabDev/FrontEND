@@ -1,0 +1,25 @@
+.styleBTNGROUP {
+    padding-top: 15%;
+}
+
+@media screen and (max-width: 980px) {
+    .titleSerieReunion {
+        padding-top: 20%;
+    }
+}
+
+.cajaReuniones {
+    border: 1px black;
+}
+
+.boton2 {
+    background: transparent;
+    border: none !important;
+    position: relative;
+    height: 30px;
+    width: 40px;
+}
+
+.x {
+    color: rgb(255, 0, 0);
+}

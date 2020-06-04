@@ -1,0 +1,229 @@
+<div class="container titleSerieReunion">
+    <div class="row justify-content-center">
+        <div class="col-sm-3"></div>
+        <div class="col-6">
+            <h3 style="text-align: center;">{{serieReunion.equipo}} - {{serieReunion.nombre}}</h3>
+        </div>
+        <div *ngIf="us.isUserAdminAndJefe()" class="col">
+            <a [routerLink]="['/', 'modifseriereunion', serieReunion.codSReunion]" title="Modificar Serie Reunion"><i class="fas fa-cogs fa-2x"></i></a>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<div class="container">
+    <h3>Participantes de esta reunión</h3>
+    <div *ngFor="let user of usuarios">
+        {{user.nombre}} - {{user.rol}}
+    </div>
+</div>
+
+<div class="container styleBTNGROUP">
+    <div class="row justify-content-center">
+        <div class="btn-toolbar flex-wrap">
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline-primary" (click)="verReuniones()" title="Ver Reuniones">Reuniones</button>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline-primary" (click)="verTemas()" title="Ver Temas">Temas</button>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline-primary" (click)="verTareas()" title="Ver Tareas">Tareas</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br>
+<div class="container">
+    <div class="row">
+        <div class="col-9">
+            <div class="form-group">
+                <input type="search" class="form-control" name="filtro" autocomplete="off" placeholder="Buscar..." [(ngModel)]="filtroBusqueda">
+            </div>
+        </div>
+        <div class="col" *ngIf="us.isUserAdminAndJefe()">
+            <button type="submit" class="btn btn-outline-success my-2 my-sm-0" [routerLink]="['/', 'addreunion', serieReunion.codSReunion]" title="Crear nueva Reunion"><i class="fas fa-plus"></i> Crear nueva reunion</button>
+        </div>
+    </div>
+    <br>
+    <div *ngIf="isReunion">
+        <div *ngFor="let reu of reunion | filter:filtroBusqueda">
+            <div class="card">
+                <div class="card-body">
+                    <a [routerLink]="['/', 'reunion', codsreunion, reu.codReunion]" title="Acceder a la Reunion">{{reu.fecha}}</a>
+                    <hr>
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+    <div *ngIf="isTema">
+        <div *ngFor="let tem of temas | filter:filtroBusqueda">
+            <div class="card">
+                <div class="card-body">
+                    <div *ngIf="tem.cerrado === 1">
+                        <span style="cursor: pointer;" (click)="verTema(tem.codTema, temaModal)">{{tem.titulo}} <span class="label">*{{tem.etiqueta}}* </span> (CERRADO)</span>
+                    </div>
+                    <div *ngIf="tem.cerrado === 0">
+                        <span style="cursor: pointer;" (click)="verTema(tem.codTema, temaModal)">{{tem.titulo}} <span class="label">*{{tem.etiqueta}}*</span></span>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+    <div *ngIf="isTareas">
+        <div *ngFor="let tar of tareas | filter:filtroBusqueda">
+            <div class="card">
+                <div class="card-body">
+                    <div *ngIf="tar.cerrado === 1">
+                        <span style="cursor: pointer;" (click)="verTarea(tar.codTarea, tareaModal)">{{tar.titulo}} (CERRADA)</span>
+                    </div>
+                    <div *ngIf="tar.cerrado === 0">
+                        <span style="cursor: pointer;" (click)="verTarea(tar.codTarea, tareaModal)">{{tar.titulo}}</span>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-outline-dark my-2 my-sm-0" routerLink="/home"><i class="fas fa-angle-left"></i> Volver</button>
+</div>
+
+
+
+<ng-template #temaModal>
+    <div class="modal-header">
+        <h4 class="modal-title">Información del tema</h4>
+    </div>
+    <div class="modal-body">
+        <div *ngIf="nomodificar && us.isUserAdminAndJefe()">
+            <p>¿Desea modificar el tema?</p>
+            <button type="button" class="btn-sm btn-primary" (click)="siTema()" title="Modificar Tema">Si</button>
+        </div>
+        <br>
+        <form [formGroup]="infoTemaForm" method="POST" (ngSubmit)="modificarTema(infoTemaForm, temaModal)">
+            <div class="form-group">
+                <label for="titulo">Titulo</label>
+                <input type="text" id="titulo" name="titulo" formControlName="tituloTema" class="form-control" placeholder="titulo">
+                <div class="alert alert-danger" *ngIf="(tituloTema.touched) && (tituloTema.invalid)" style="margin-top: 5px;">
+                    <span *ngIf="tituloTema.errors.required">El titulo es un campo requerido</span>
+                    <span *ngIf="tituloTema.errors.maxlength">
+                        Longitud máxima de carácteres: {{tituloTema.errors.maxlength.requiredLength}}
+                    </span>
+                </div>
+
+                <br>
+
+                <label for="etiqueta">Etiqueta</label>
+                <select class="form-control" name="etiqueta" id="etiqueta" formControlName="etiquetaTema">
+                    <option value="ACTUAL">Actual</option>
+                    <option value="RECURRENTE">Recurrente</option>
+                </select>
+                <div class="alert alert-danger" *ngIf="(etiquetaTema.touched) && (etiquetaTema.invalid)" style="margin-top: 5px;">
+                    <span *ngIf="etiquetaTema.errors.required">La etiqueta es un campo requerido</span>
+                </div>
+
+                <br>
+
+                <label for="info">Información</label>
+                <textarea id="info" name="info" class="form-control" formControlName="infoTema" placeholder="Escriba la información del tema..."></textarea>
+                <div class="alert alert-danger" *ngIf="(infoTema.touched) && (infoTema.invalid)" style="margin-top: 5px;">
+                    <span *ngIf="infoTema.errors.required">La información es un campo requerido</span>
+                    <span *ngIf="infoTema.errors.maxlength">
+                    Longitud máxima de carácteres: {{infoTema.errors.maxlength.requiredLength}}
+                    </span>
+                </div>
+
+                <br>
+
+                <label for="decision">Decision</label>
+                <textarea id="decision" name="decision" class="form-control" formControlName="decisionTema" placeholder="Escriba la decision del tema..."></textarea>
+                <div class="alert alert-danger" *ngIf="(decisionTema.touched) && (decisionTema.invalid)" style="margin-top: 5px;">
+                    <span *ngIf="decisionTema.errors.required">La decisión es un campo requerido</span>
+                    <span *ngIf="decisionTema.errors.maxlength">
+                        Longitud máxima de carácteres: {{decisionTema.errors.maxlength.requiredLength}}
+                    </span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="modificar" [disabled]="!infoTemaForm.valid" type="submit" class="btn btn-success">Añadir</button>
+                <button type="button" class="btn btn-light" (click)="cerrarModalTema(temaModal)">Cerrar</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<ng-template #tareaModal>
+    <div class="modal-header">
+        <h4 class="modal-title">Información de la tarea</h4>
+    </div>
+    <div class="modal-body">
+        <div *ngIf="nomodificar && us.isUserAdminAndJefe()">
+            <p>¿Desea modificar la tarea?</p>
+            <button type="button" class="btn-sm btn-primary" (click)="siTarea()" title="Modificar Tarea">Si</button>
+        </div>
+        <br>
+        <form [formGroup]="infoTareaForm" method="POST" (ngSubmit)="modificarTarea(infoTareaForm, tareaModal)">
+            <div class="form-group">
+                <label for="titulo">Titulo</label>
+                <input type="text" id="titulo" name="titulo" formControlName="tituloTarea" class="form-control" placeholder="titulo">
+                <div class="alert alert-danger" *ngIf="(tituloTarea.touched) && (tituloTarea.invalid)" style="margin-top: 5px;">
+                    <span *ngIf="tituloTarea.errors.required">El titulo es un campo requerido</span>
+                    <span *ngIf="tituloTarea.errors.maxlength">
+                        Longitud máxima de carácteres: {{tituloTarea.errors.maxlength.requiredLength}}
+                    </span>
+                </div>
+
+                <br>
+
+                <label for="descripcion">Descripción</label>
+                <textarea id="descripcion" name="descripcion" class="form-control" formControlName="descripTarea" placeholder="Escriba la información del tema..."></textarea>
+                <div class="alert alert-danger" *ngIf="(descripTarea.touched) && (descripTarea.invalid)" style="margin-top: 5px;">
+                    <span *ngIf="descripTarea.errors.required">La descripción es un campo requerido</span>
+                    <span *ngIf="descripTarea.errors.maxlength">
+                        Longitud máxima de carácteres: {{descripTarea.errors.maxlength.requiredLength}}
+                    </span>
+                </div>
+
+                <br>
+
+                <label for="responsables">Responsables</label>
+                <div *ngFor="let user of tarea.usuarios">
+                    <div class="row">
+                        <div class="col">
+                            {{user.nombre}} - {{user.rol}}
+                        </div>
+                        <div class="col" *ngIf="us.isUserAdminAndJefe() && modificar">
+                            <button type="button" class="boton2" (click)="eliminarResponsableTarea(user.codUsu, tareaModal)"><i class="fas fa-times x"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                <div *ngIf="modificar">
+                    <div *ngIf="usuariosnotintarea.length == 0">
+                        <p>Debe invitar más usuarios a la serie de reuniones para poder añadirlos aquí.</p>
+                    </div>
+                    <div *ngIf="usuariosnotintarea.length > 0">
+                        <label for="newresponsables">¿Añadir más responsables a la tarea?</label>
+                        <select multiple id="responsables" name="responsables" formControlName="responsablesTarea" class="form-control">
+                            <option *ngFor="let user of usuariosnotintarea" value="{{user.codUsu}}">
+                                {{user.nombre}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="modificar" [disabled]="!infoTareaForm.valid" type="submit" class="btn btn-success">Añadir</button>
+                <button type="button" class="btn btn-light" (click)="cerrarModalTarea(tareaModal)">Cerrar</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<div style="height: 20rem;"></div>

@@ -1,0 +1,31 @@
+@media screen and (max-width: 1250px) {
+    .formNuevaActa {
+        padding-top: 5%;
+    }
+}
+
+@media screen and (max-width: 460px) {
+    .formNuevaActa {
+        padding-top: 20%;
+    }
+}
+
+.dropdown-toggle::after {
+    content: none;
+}
+
+.elipse:hover {
+    cursor: pointer;
+}
+
+.boton2 {
+    background: transparent;
+    border: none !important;
+    position: relative;
+    height: 30px;
+    width: 40px;
+}
+
+.angular-with-newlines {
+    white-space: pre-wrap;
+}
