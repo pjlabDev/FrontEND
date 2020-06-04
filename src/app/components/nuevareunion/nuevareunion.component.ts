@@ -60,7 +60,7 @@ export class NuevareunionComponent implements OnInit {
 
   /** Método para crear una nueva Reunión */
 
-  crearReunion(form: NgForm) {
+  crearReunion(form) {
     this.reunion.fecha = form.value.fecha;
     this.codigos = form.value.participantes;
     this.rs.crearReunion(this.reunion, this.codsreunion, this.codigos).subscribe(data => {

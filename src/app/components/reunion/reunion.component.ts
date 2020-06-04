@@ -254,7 +254,7 @@ export class ReunionComponent implements OnInit {
 
   /** Método para modificar la reunión */
 
-  modificarReunion(form: NgForm, modal) {
+  modificarReunion(form, modal) {
 
     this.reunion.fecha = form.value.fecha;
 

@@ -27,7 +27,7 @@ export class RegisterComponent implements OnInit {
 
   /** Método para registrar un nuevo usuario */
 
-  addNewUsuario(form: NgForm) {
+  addNewUsuario(form) {
     this.usuario.correo = form.value.correo;
     this.usuario.nombre = form.value.nombre;
     this.usuario.clave = form.value.clave;

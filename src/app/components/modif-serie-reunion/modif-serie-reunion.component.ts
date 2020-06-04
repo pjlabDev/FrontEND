@@ -55,7 +55,7 @@ export class ModifSerieReunionComponent implements OnInit {
 
   /** Método para modificar la Serie de Reunion */
 
-  modifSerieReunion(form: NgForm) {
+  modifSerieReunion(form) {
       this.codigos = form.value.usuario;
 
       this.serieReunion.equipo = form.value.equipo;

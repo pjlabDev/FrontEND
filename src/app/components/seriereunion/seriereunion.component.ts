@@ -163,7 +163,7 @@ export class SeriereunionComponent implements OnInit {
 
   /** Método para modificar los temas */
 
-  modificarTema(form: NgForm, modal) {
+  modificarTema(form, modal) {
     this.tema.titulo = form.value.tituloTema;
     this.tema.etiqueta = form.value.etiquetaTema;
     this.tema.info = form.value.infoTema;
@@ -229,7 +229,7 @@ export class SeriereunionComponent implements OnInit {
 
   /** Método para modificar la tarea */
 
-  modificarTarea(form: NgForm, modal) {
+  modificarTarea(form, modal) {
     let codigos = [-1];
     this.tarea.titulo = form.value.tituloTarea;
     this.tarea.descripcion = form.value.descripTarea;

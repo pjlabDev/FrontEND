@@ -80,7 +80,7 @@ export class TareasComponent implements OnInit {
 
   /** Método para crear una nueva tarea */
 
-  crearTarea(form: NgForm) {
+  crearTarea(form) {
     this.tarea.titulo = form.value.titulo;
     this.tarea.descripcion = form.value.descripcion;
     this.codusu = form.value.responsables;

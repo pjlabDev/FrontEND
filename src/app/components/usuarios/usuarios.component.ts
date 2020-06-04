@@ -56,7 +56,7 @@ export class UsuariosComponent implements OnInit {
 
   /** Método para modificar un usuario */
 
-  modificarUsuario(form: NgForm, modal) {
+  modificarUsuario(form, modal) {
     this.user.nombre = form.value.nombre;
     this.user.correo = form.value.correo;
     this.user.clave = form.value.clave;

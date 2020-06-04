@@ -37,7 +37,7 @@ export class NuevaseriereunionComponent implements OnInit {
 
   /** Crea una nueva Serie de Reuniones */
 
-  crearSerieReunion(form: NgForm) {
+  crearSerieReunion(form) {
       this.serieReunion.equipo = form.value.equipo;
       this.serieReunion.nombre = form.value.nombre;
       this.codigos = form.value.usuario;

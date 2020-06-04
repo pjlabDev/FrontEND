@@ -93,7 +93,7 @@ export class TemasComponent implements OnInit {
 
   /** Método para crear nuevos temas */
 
-  crearTema(form: NgForm) {
+  crearTema(form) {
     this.tema.titulo = form.value.titulo;
     this.tema.etiqueta = form.value.etiqueta;
     this.ts.crearTemas(this.tema, this.codreunion, this.codsreunion).subscribe(data => {
@@ -135,7 +135,7 @@ export class TemasComponent implements OnInit {
 
   /** Método para añadir información al tema que seleccionemos */
 
-  addInfoTema(form: NgForm, modal) {
+  addInfoTema(form, modal) {
     this.tema.info = form.value.info;
     this.ts.añadirInfoTema(this.tema, this.codTema).subscribe(data => {
       Swal.fire({
@@ -162,7 +162,7 @@ export class TemasComponent implements OnInit {
 
   /** Método para añadir una decisión al tema que seleccionemos */
 
-  addDecisionTema(form: NgForm, modal) {
+  addDecisionTema(form, modal) {
     this.tema.decision = form.value.decision;
     this.ts.añadirDecisionTemas(this.tema, this.codTema).subscribe(data => {
       Swal.fire({
@@ -226,7 +226,7 @@ export class TemasComponent implements OnInit {
 
   /** Método para añadir un seguimiento a un tema cerrado */
 
-  addSeguimientoTemaCerrado(form: NgForm, modal) {
+  addSeguimientoTemaCerrado(form, modal) {
     this.tema.seguimiento = form.value.seguimiento;
     this.tema.codTema = this.codTema;
 

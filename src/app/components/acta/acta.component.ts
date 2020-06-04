@@ -109,7 +109,7 @@ export class ActaComponent implements OnInit {
 
   /** Método para generar el PDF del acta con la librería JsPDF */
 
-  generarActa(form: NgForm) {
+  generarActa(form) {
 
     this.codigos = form.value.asistentes;
 
@@ -140,7 +140,7 @@ export class ActaComponent implements OnInit {
 
   /** Método para enviar el Acta por Email a los participantes que han asistido */
 
-  enviarActa(form: NgForm) {
+  enviarActa(form) {
 
     if (this.temas !== undefined) {
       this.temas.forEach(res => {
