@@ -10,15 +10,13 @@
     <br>
     <br>
     <div class="row">
-        <div class="col">
+        <div class="col-9">
             <div class="form-group">
                 <input type="search" class="form-control" name="filtro" autocomplete="off" placeholder="Buscar..." [(ngModel)]="filtroBusqueda">
             </div>
         </div>
-        <div class="col">
-            <div *ngIf="us.isUserAdminAndJefe()">
-                <button title="Crear Nueva Serie Reunión" class="btn btn-success my-2 my-sm-0" routerLink="/addseriereunion" type="submit"><i class="fas fa-plus"></i> Crear nueva serie reunion</button>
-            </div>
+        <div class="col" *ngIf="us.isUserAdminAndJefe()">
+            <button title="Crear Nueva Serie Reunión" class="btn btn-success my-2 my-sm-0" routerLink="/addseriereunion" type="submit"><i class="fas fa-plus"></i> Crear nueva serie reunion</button>
         </div>
     </div>
     <br>
