@@ -23,6 +23,8 @@ export class HomeComponent implements OnInit {
     codsreunion: new FormControl(''),
   });
 
+  filtroBusqueda;
+
   constructor(public us: UsuarioService, public sr: SeriereunionService) {
     this.serieReuniones = [];
   }

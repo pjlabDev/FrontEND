@@ -26,6 +26,9 @@ import { ImgDataServiceService } from '../../services/img-data-service.service';
   providers: [DatePipe]
 })
 export class ActaComponent implements OnInit {
+
+  /** Variables para guardar información */
+
   reunion: Reunion = new Reunion();
   serieReunion: SerieReunion = new SerieReunion();
   usuarios: Usuario[];
@@ -45,6 +48,8 @@ export class ActaComponent implements OnInit {
   temas: Temas[];
   codtemas: number[] = [];
   existeTema = false;
+
+  /** FormGroup para el formulario del acta */
 
   nuevaActaForm = new FormGroup({
     fecha: new FormControl('', [Validators.required]),
@@ -179,6 +184,14 @@ export class ActaComponent implements OnInit {
 
   get conclusion() {
     return this.nuevaActaForm.get('conclusion');
+  }
+
+  get fecha() {
+    return this.nuevaActaForm.get('fecha');
+  }
+
+  get asistentesForm() {
+    return this.nuevaActaForm.get('asistentes');
   }
 
 }
