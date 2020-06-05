@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="col">
-            <div class="offset-7" *ngIf="us.isUserAdminAndJefe()">
+            <div *ngIf="us.isUserAdminAndJefe()">
                 <button title="Crear Nueva Serie Reunión" class="btn btn-success my-2 my-sm-0" routerLink="/addseriereunion" type="submit"><i class="fas fa-plus"></i> Crear nueva serie reunion</button>
             </div>
         </div>
