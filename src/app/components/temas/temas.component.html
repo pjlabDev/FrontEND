@@ -90,35 +90,36 @@
                                 </div>
                             </div>
                         </div>
-                        <div *ngIf="tem.info !== null">
-                            <br>
-                            <div id="accordion">
-                                <a data-toggle="collapse" [attr.data-target]="'#collapseOne' + tem.codTema" aria-expanded="true" aria-controls="collapseOne" title="Mostrar información del tema seleccionado"><b style="color: rgb(0, 0, 255);">INFORMACIÓN    </b><i style="color: rgb(0, 0, 255);" class="fas fa-angle-double-right"></i></a>
-                            </div>
-                            <div id="collapseOne{{tem.codTema}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-                                <hr>
-                                <p class="angular-with-newlines">{{tem.info}}</p>
-                            </div>
+
+                        <br>
+
+                        <div id="accordion">
+                            <a data-toggle="collapse" [attr.data-target]="'#collapseOne' + tem.codTema" aria-expanded="true" aria-controls="collapseOne" title="Mostrar información del tema seleccionado"><b style="color: rgb(0, 0, 255);">INFORMACIÓN    </b><i style="color: rgb(0, 0, 255);" class="fas fa-angle-double-right"></i></a>
                         </div>
-                        <div *ngIf="tem.decision !== null || tem.decision !== ''">
-                            <br>
-                            <div id="accordion">
-                                <a data-toggle="collapse" [attr.data-target]="'#collapseTwo' + tem.codTema" aria-expanded="true" aria-controls="collapseTwo" title="Mostrar decisión del tema seleccionado"><b style="color: rgb(0, 128, 0);">DECISIÓN    </b><i style="color: rgb(0, 128, 0);" class="fas fa-angle-double-down"></i></a>
-                            </div>
-                            <div id="collapseTwo{{tem.codTema}}" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                                <hr>
-                                <p>{{tem.decision}}</p>
-                            </div>
+                        <div id="collapseOne{{tem.codTema}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                            <hr>
+                            <p class="angular-with-newlines">{{tem.info}}</p>
                         </div>
-                        <div *ngIf="tem.seguimiento !== null">
-                            <br>
-                            <div id="accordion">
-                                <a data-toggle="collapse" [attr.data-target]="'#collapseThree' + tem.codTema" aria-expanded="true" aria-controls="collapseThree" title="Mostrar seguimiento del tema seleccionado"><b style="color: rgb(103, 0, 172);">SEGUIMIENTO    </b><i style="color: rgb(103, 0, 172);" class="fas fa-angle-double-down"></i></a>
-                            </div>
-                            <div id="collapseThree{{tem.codTema}}" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                                <hr>
-                                <p class="angular-with-newlines">{{tem.seguimiento}}</p>
-                            </div>
+
+                        <br>
+
+                        <div id="accordion">
+                            <a data-toggle="collapse" [attr.data-target]="'#collapseTwo' + tem.codTema" aria-expanded="true" aria-controls="collapseTwo" title="Mostrar decisión del tema seleccionado"><b style="color: rgb(0, 128, 0);">DECISIÓN    </b><i style="color: rgb(0, 128, 0);" class="fas fa-angle-double-down"></i></a>
+                        </div>
+                        <div id="collapseTwo{{tem.codTema}}" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                            <hr>
+                            <p>{{tem.decision}}</p>
+
+                        </div>
+
+                        <br>
+
+                        <div id="accordion">
+                            <a data-toggle="collapse" [attr.data-target]="'#collapseThree' + tem.codTema" aria-expanded="true" aria-controls="collapseThree" title="Mostrar seguimiento del tema seleccionado"><b style="color: rgb(103, 0, 172);">SEGUIMIENTO    </b><i style="color: rgb(103, 0, 172);" class="fas fa-angle-double-down"></i></a>
+                        </div>
+                        <div id="collapseThree{{tem.codTema}}" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                            <hr>
+                            <p class="angular-with-newlines">{{tem.seguimiento}}</p>
                         </div>
                     </div>
                 </div>

@@ -36,9 +36,9 @@ export class SeriereunionComponent implements OnInit {
   infoTemaForm = new FormGroup({
     tituloTema: new FormControl('', [Validators.required, Validators.maxLength(50)]),
     etiquetaTema: new FormControl('', [Validators.required]),
-    infoTema: new FormControl('', [Validators.maxLength(255)]),
-    decisionTema: new FormControl('', [Validators.maxLength(255)]),
-    seguimientoTema: new FormControl('', [Validators.maxLength(255)])
+    infoTema: new FormControl('', [Validators.required, Validators.maxLength(255)]),
+    decisionTema: new FormControl('', [Validators.required, Validators.maxLength(255)]),
+    seguimientoTema: new FormControl('', [Validators.required, Validators.maxLength(255)])
   });
   tema: Temas = new Temas();
 
@@ -142,6 +142,20 @@ export class SeriereunionComponent implements OnInit {
       this.infoTema.setValue(this.tema.info);
       this.decisionTema.setValue(this.tema.decision);
       this.seguimientoTema.setValue(this.tema.seguimiento);
+
+      if (this.tema.info === null) {
+        this.infoTema.setValidators([Validators.maxLength(255)]);
+      }
+
+      if (this.tema.decision === null) {
+        this.decisionTema.setValidators([Validators.maxLength(255)]);
+      }
+
+      if (this.tema.seguimiento === null) {
+        this.seguimientoTema.setValidators([Validators.maxLength(255)]);
+      }
+
+
     });
     this.modalService.open(modal);
   }
