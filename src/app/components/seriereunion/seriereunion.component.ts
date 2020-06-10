@@ -135,11 +135,13 @@ export class SeriereunionComponent implements OnInit {
       this.etiquetaTema.disable();
       this.infoTema.disable();
       this.decisionTema.disable();
+      this.seguimientoTema.disable();
 
       this.tituloTema.setValue(this.tema.titulo);
       this.etiquetaTema.setValue(this.tema.etiqueta);
       this.infoTema.setValue(this.tema.info);
       this.decisionTema.setValue(this.tema.decision);
+      this.seguimientoTema.setValue(this.tema.seguimiento);
     });
     this.modalService.open(modal);
   }
@@ -160,6 +162,7 @@ export class SeriereunionComponent implements OnInit {
     this.etiquetaTema.enable();
     this.infoTema.enable();
     this.decisionTema.enable();
+    this.seguimientoTema.enable();
   }
 
   /** Método para modificar los temas */
@@ -169,6 +172,7 @@ export class SeriereunionComponent implements OnInit {
     this.tema.etiqueta = form.value.etiquetaTema;
     this.tema.info = form.value.infoTema;
     this.tema.decision = form.value.decisionTema;
+    this.tema.seguimiento = form.value.seguimientoTema;
 
     this.ts.modificarTema(this.tema).subscribe(data => {
       Swal.fire({
