@@ -128,7 +128,7 @@
 
                 <br>
 
-                <div *ngIf="tema.info != null">
+                <div *ngIf="tema.info !== null">
                     <label for="info">Información</label>
                     <textarea id="info" name="info" class="form-control" formControlName="infoTema" placeholder="Escriba la información del tema..."></textarea>
                     <div class="alert alert-danger" *ngIf="(infoTema.touched) && (infoTema.invalid)" style="margin-top: 5px;">
@@ -141,7 +141,7 @@
 
                 <br>
 
-                <div *ngIf="tema.decision != null">
+                <div *ngIf="tema.decision !== null">
                     <label for="decision">Decision</label>
                     <textarea id="decision" name="decision" class="form-control" formControlName="decisionTema" placeholder="Escriba la decision del tema..."></textarea>
                     <div class="alert alert-danger" *ngIf="(decisionTema.touched) && (decisionTema.invalid)" style="margin-top: 5px;">
@@ -154,7 +154,7 @@
 
                 <br>
 
-                <div *ngIf="tema.seguimiento != null">
+                <div *ngIf="tema.seguimiento !== null">
                     <label for="seguimiento">Seguimiento</label>
                     <textarea id="seguimiento" name="seguimiento" class="form-control" formControlName="seguimientoTema" placeholder="Escriba el seguimiento del tema..."></textarea>
                     <div class="alert alert-danger" *ngIf="(seguimientoTema.touched) && (seguimientoTema.invalid)" style="margin-top: 5px;">

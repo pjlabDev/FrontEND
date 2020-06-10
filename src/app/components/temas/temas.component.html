@@ -100,7 +100,7 @@
                                 <p class="angular-with-newlines">{{tem.info}}</p>
                             </div>
                         </div>
-                        <div *ngIf="tem.decision !== null">
+                        <div *ngIf="tem.decision !== null || tem.decision !== ''">
                             <br>
                             <div id="accordion">
                                 <a data-toggle="collapse" [attr.data-target]="'#collapseTwo' + tem.codTema" aria-expanded="true" aria-controls="collapseTwo" title="Mostrar decisión del tema seleccionado"><b style="color: rgb(0, 128, 0);">DECISIÓN    </b><i style="color: rgb(0, 128, 0);" class="fas fa-angle-double-down"></i></a>
