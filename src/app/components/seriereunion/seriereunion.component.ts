@@ -37,7 +37,8 @@ export class SeriereunionComponent implements OnInit {
     tituloTema: new FormControl('', [Validators.required, Validators.maxLength(50)]),
     etiquetaTema: new FormControl('', [Validators.required]),
     infoTema: new FormControl('', [Validators.required, Validators.maxLength(255)]),
-    decisionTema: new FormControl('', [Validators.required, Validators.maxLength(255)])
+    decisionTema: new FormControl('', [Validators.required, Validators.maxLength(255)]),
+    seguimientoTema: new FormControl('', [Validators.required, Validators.maxLength(255)])
   });
   tema: Temas = new Temas();
 
@@ -317,6 +318,10 @@ export class SeriereunionComponent implements OnInit {
 
   get decisionTema() {
     return this.infoTemaForm.get('decisionTema');
+  }
+
+  get seguimientoTema() {
+    return this.infoTemaForm.get('seguimientoTema');
   }
 
   /** GET atributos del formulario para las TAREAS */
