@@ -36,9 +36,9 @@ export class SeriereunionComponent implements OnInit {
   infoTemaForm = new FormGroup({
     tituloTema: new FormControl('', [Validators.required, Validators.maxLength(50)]),
     etiquetaTema: new FormControl('', [Validators.required]),
-    infoTema: new FormControl('', [Validators.required, Validators.maxLength(255)]),
-    decisionTema: new FormControl('', [Validators.required, Validators.maxLength(255)]),
-    seguimientoTema: new FormControl('', [Validators.required, Validators.maxLength(255)])
+    infoTema: new FormControl('', [Validators.maxLength(255)]),
+    decisionTema: new FormControl('', [Validators.maxLength(255)]),
+    seguimientoTema: new FormControl('', [Validators.maxLength(255)])
   });
   tema: Temas = new Temas();
 
